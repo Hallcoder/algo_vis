@@ -1,0 +1,14 @@
+.navbar{
+display:flex;
+flex-direction:row;
+width:100%;
+justify-content:between !important;
+border:2px solid blue;
+}
+
+.sortList{
+    display:flex;
+    flex-direction:row;
+    width:100%;
+    justify-content:between;
+}
