@@ -3,11 +3,12 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import Navbar from "./Navbar";
 import BarDiv from "./Bar";
-import { bubbleSort, mergeSort } from "./utils";
+import { bubbleSort, mergeSort, quickSort } from "./utils";
 function App() {
   const [bars, setBars] = useState([]);
   const [sort, setSort] = useState("");
   const [currentBar, setCurrentBar] = useState({});
+  const [secondCurrentBar, setSecondCurrentBar] = useState({});
   const currentBarClass = "";
   class Bar {
     height;
@@ -36,7 +37,7 @@ function App() {
     setBars(newBars);
   };
   const sortStyle = type => {
-    // console.log(type);
+    console.log(type);
     setSort(type);
   };
   const visualiseSort = () => {
@@ -44,10 +45,11 @@ function App() {
     switch (sort) {
       case "merge":
         console.log("merge");
-        mergeSort(bars, 0, bars.length, setBars, setCurrentBar);
+        mergeSort(bars, 0, bars.length-1, setBars, setCurrentBar,setSecondCurrentBar);
         break;
       case "quick":
-        quickSort(arr, setBars);
+        console.log("quick");
+        quickSort(bars, 0, bars.length-1, setBars, setCurrentBar);
         break;
       case "bubble":
         console.log("Bubble");
@@ -60,7 +62,7 @@ function App() {
   };
   return (
     <div className="flex flex-col">
-      <Navbar sort={sortStyle} />
+      <Navbar sort={sortStyle} type={sort}/>
       <div className="flex flex-row w-9/12 justify-around m-auto">
         {bars.map(b => {
           return (
@@ -70,6 +72,7 @@ function App() {
               key={new Date().getMilliseconds() + Math.random()}
               id={b.id}
               current={b.id == currentBar.id}
+              second = {b.id == secondCurrentBar.id}
             />
           );
         })}
