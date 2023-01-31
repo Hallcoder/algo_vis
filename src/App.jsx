@@ -4,9 +4,11 @@ import "./App.css";
 import Navbar from "./Navbar";
 import BarDiv from "./Bar";
 import { bubbleSort, mergeSort, quickSort } from "./utils";
+import { SpeedDialAction } from "@mui/material";
 function App() {
   const [bars, setBars] = useState([]);
   const [sort, setSort] = useState("");
+  const [speed,setSpeed] = useState(300);
   const [currentBar, setCurrentBar] = useState({});
   const [secondCurrentBar, setSecondCurrentBar] = useState({});
   const currentBarClass = "";
@@ -45,15 +47,15 @@ function App() {
     switch (sort) {
       case "merge":
         console.log("merge");
-        mergeSort(bars, 0, bars.length-1, setBars, setCurrentBar,setSecondCurrentBar);
+        mergeSort(bars, 0, bars.length-1, setBars, setCurrentBar,setSecondCurrentBar,speed);
         break;
       case "quick":
         console.log("quick");
-        quickSort(bars, 0, bars.length-1, setBars, setCurrentBar);
+        quickSort(bars, 0, bars.length-1, setBars, setCurrentBar,speed);
         break;
       case "bubble":
         console.log("Bubble");
-        bubbleSort(arr, setBars, bars, setCurrentBar);
+        bubbleSort(arr, setBars, bars, setCurrentBar,speed);
         break;
       case "insertion":
         insertionSort(arr, setBars);
@@ -62,7 +64,7 @@ function App() {
   };
   return (
     <div className="flex flex-col">
-      <Navbar sort={sortStyle} type={sort}/>
+      <Navbar sort={sortStyle} type={sort} speed={setSpeed}/>
       <div className="flex flex-row w-9/12 justify-around m-auto">
         {bars.map(b => {
           return (

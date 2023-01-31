@@ -1,7 +1,15 @@
+import { Slider } from "@mui/material";
 import "./navbar.css";
-function Navbar({ sort,type }) {
+import { useState } from 'react';
+function Navbar({ sort,type ,speed}) {
+  const [sliderValue,setSliderValue] = useState(290);
+  const handleSliderChange= (e) => {
+    console.log("Slider changing..");
+    setSliderValue(e.target.value);
+    speed(sliderValue*10);
+  }
   const spanClass =
-    "text-[#368f6a] bg-white  p-2 border rounded-md font-bold text-white cursor-pointer";
+  "text-[#368f6a] bg-white  p-2 border rounded-md font-bold text-white cursor-pointer";
   const active = 
   "bg-[#368f6a]  text-white  p-2 border rounded-md font-bold text-white cursor-pointer"
   return (
@@ -31,6 +39,9 @@ function Navbar({ sort,type }) {
           onClick={() => sort("insertion")}
         >
           Insertion Sort
+        </span>
+        <span className="w-3/12">
+        <Slider step={20} value={sliderValue} className='w-5/12' onChange={(e) => handleSliderChange(e)}/>  
         </span>
       </div>
     </div>

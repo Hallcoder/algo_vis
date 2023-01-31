@@ -1,7 +1,7 @@
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-export const bubbleSort = async (arr, set, bars, currentBar) => {
+export const bubbleSort = async (arr, set, bars, currentBar,speed) => {
   let sorted;
   for (let i = 0; i < bars.length - 1; i++) {
     sorted = true;
@@ -13,25 +13,24 @@ export const bubbleSort = async (arr, set, bars, currentBar) => {
         bars[j] = temp;
         await set(prev => bars);
         currentBar(bars[j + 1]);
-        await sleep(60);
+        await sleep(speed);
       }
     }
     if (sorted) break;
   }
 };
 
-export const mergeSort = async (arr, l, r, set, bar,sBar) => {
+export const mergeSort = async (arr, l, r, set, bar,sBar,speed) => {
   if (l < r) {
     let middle = Math.floor((l + r) / 2);
-   await  mergeSort(arr, l, middle, set, bar,sBar);
-  await mergeSort(arr, middle + 1, r, set, bar,sBar);
-    await merge(arr, l, middle, r, set, bar,sBar);
+   await  mergeSort(arr, l, middle, set, bar,sBar,speed);
+  await mergeSort(arr, middle + 1, r, set, bar,sBar,speed);
+    await merge(arr, l, middle, r, set, bar,sBar,speed);
     console.log("Merge sort 1:",arr)
     return;
   }
-
 };
-const merge = async (arr, l, m, r, set, bar,sBar) => {
+const merge = async (arr, l, m, r, set, bar,sBar,speed) => {
   console.log("low",l,"high",r,"middle",m);
   let left_length = m - l + 1;
   let right_length = r - m;
@@ -67,8 +66,9 @@ const merge = async (arr, l, m, r, set, bar,sBar) => {
       j++;
     }
     k++;
-    await sleep(200);
+    await sleep(10)
   }
+  //TODO: Implement the speed feature.
   while (i < left_length) {
     arr[k] = left_array[i];
     await bar(prev => arr[i]);
@@ -82,9 +82,9 @@ const merge = async (arr, l, m, r, set, bar,sBar) => {
     j++;
   }
   set(prev => arr)
-  await sleep(200);
+  await sleep(speed - 10);
 };
-const partition = async (bars, l, r, current,set) => {
+const partition = async (bars, l, r, current,set,speed) => {
   let pivot = bars[r];
   console.log("Pivot:", r);
   let i = l - 1,
@@ -104,15 +104,15 @@ const partition = async (bars, l, r, current,set) => {
   }
   swap(bars, i + 1, r);
   await set(bars);
-  await sleep(200)
+  await sleep(speed)
   return i + 1;
 };
-export const quickSort = async(bars, l, r, set, current) => {
+export const quickSort = async(bars, l, r, set, current,speed) => {
   if (l < r) {
-    let pivot = await partition(bars, l, r, current,set);
+    let pivot = await partition(bars, l, r, current,set,speed);
     console.log("Pivot:",pivot)
-    await quickSort(bars, l, pivot-1, set, current);
-    await quickSort(bars, pivot + 1, r, set, current);
+    await quickSort(bars, l, pivot-1, set, current,speed);
+    await quickSort(bars, pivot + 1, r, set, current,speed);
   }
 };
 const print = arr => {
