@@ -3,12 +3,12 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import Navbar from "./Navbar";
 import BarDiv from "./Bar";
-import { bubbleSort, mergeSort, quickSort } from "./utils";
+import { bubbleSort, mergeSort, quickSort, insertionSort } from "./utils";
 import { SpeedDialAction } from "@mui/material";
 function App() {
   const [bars, setBars] = useState([]);
   const [sort, setSort] = useState("");
-  const [speed,setSpeed] = useState(300);
+  const [speed, setSpeed] = useState(300);
   const [currentBar, setCurrentBar] = useState({});
   const [secondCurrentBar, setSecondCurrentBar] = useState({});
   const currentBarClass = "";
@@ -38,35 +38,43 @@ function App() {
     }
     setBars(newBars);
   };
-  const sortStyle = type => {
+  const sortStyle = (type) => {
     console.log(type);
     setSort(type);
   };
   const visualiseSort = () => {
-    let arr = bars.map(b => b.height);
+    let arr = bars.map((b) => b.height);
     switch (sort) {
       case "merge":
         console.log("merge");
-        mergeSort(bars, 0, bars.length-1, setBars, setCurrentBar,setSecondCurrentBar,speed);
+        mergeSort(
+          bars,
+          0,
+          bars.length - 1,
+          setBars,
+          setCurrentBar,
+          setSecondCurrentBar,
+          speed
+        );
         break;
       case "quick":
         console.log("quick");
-        quickSort(bars, 0, bars.length-1, setBars, setCurrentBar,speed);
+        quickSort(bars, 0, bars.length - 1, setBars, setCurrentBar, speed);
         break;
       case "bubble":
         console.log("Bubble");
-        bubbleSort(arr, setBars, bars, setCurrentBar,speed);
+        bubbleSort(arr, setBars, bars, setCurrentBar, speed);
         break;
       case "insertion":
-        insertionSort(arr, setBars);
+        insertionSort(bars, setBars, setCurrentBar, speed);
         break;
     }
   };
   return (
     <div className="flex flex-col">
-      <Navbar sort={sortStyle} type={sort} speed={setSpeed}/>
+      <Navbar sort={sortStyle} type={sort} speed={setSpeed} />
       <div className="flex flex-row w-9/12 justify-around m-auto">
-        {bars.map(b => {
+        {bars.map((b) => {
           return (
             <BarDiv
               height={b.height}
@@ -74,7 +82,7 @@ function App() {
               key={new Date().getMilliseconds() + Math.random()}
               id={b.id}
               current={b.id == currentBar.id}
-              second = {b.id == secondCurrentBar.id}
+              second={b.id == secondCurrentBar.id}
             />
           );
         })}
